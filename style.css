@@ -1,0 +1,88 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, sans-serif;
+}
+
+html,
+body{
+  background-image: url('OrochimaruHeader.avif');
+	background-repeat: no-repeat;
+  text-align: center;
+  background-size: cover;
+}
+
+.container {
+  margin-top: 1rem;
+  height: auto;
+  width: 100%;
+  text-align: center;
+}
+
+.title{
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+table {
+  border-collapse: collapse;
+  /*quando duas células estão encostadas, a borda entre elas vira uma só*/
+  background-color: #fdfdfdab;
+	border-spacing: 0;
+	border: solid #583232;
+	border-right-color: var(--border-light);
+	border-bottom-color: var(--border-light);
+}
+
+td {
+  transition: background-color 0.1s ease;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #000;
+  text-align: center;
+}
+
+td[data-snake="true"] {
+  background-color: rgb(164, 60, 180);
+}
+
+td[data-food="true"] {
+  background-image: url('comida.png'); /* caminho da imagem */
+  background-size: cover; /* faz a imagem preencher o quadrado */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+#reset-button {
+  padding: 0.4rem 0.5rem;
+  border: 2px solid #fbff00;
+  background-color: #727272c8;
+  color: rgb(255, 255, 255);
+  font-weight: Roboto, sans-serif;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(223, 244, 0, 0.7);
+  cursor: pointer;
+  transition: scale(1.05);
+}
+
+h1 {
+  font-family: 'Roboto', sans-serif;
+  color: rgb(8, 208, 58);
+  text-shadow:
+    0 0 5px #41024f,
+    0 0 10px #41024f,
+    0 0 20px #41024f,
+    0 0 40px #fbff00,
+    0 0 60px #fbff00;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+}
