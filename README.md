@@ -1,4 +1,4 @@
 ```bash
-git clone https://github.com/usuario/repositorio.git
+git clone https://chayannyrd.github.io/orochimaru_snake/
 cd repositorio
 npm install
