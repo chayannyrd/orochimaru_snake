@@ -1,5 +1,6 @@
-let gamepad_index = 0
-let gamepad_connected = false
+let gamepad_index = 0n;
+let gamepad_connected = false;
+let podeMudarDirecao = true;
 
 function gamepad_mapear() {
   const gamepad = navigator.getGamepads()[gamepad_index]
@@ -57,19 +58,8 @@ let direcao = { x: 0, y: 1 }; // começa indo pra para baixo
 
 function desenharCobra() {
   document.querySelectorAll("td").forEach(td => {
-    /*document.querySelectorAll pra escanear cada celula da tabela porque a cobra
-vai andar então ela vai deixar de ocupar certos quadrados */
-    /*forEach é um método de iteração que percorre cada item na NodeList gerada por querySelectorAll, atribui uma
-    função para cada céçula individualmente. Nesse caso, ele vai percorrer todas as células <td>.*/
     td.removeAttribute("data-snake");
-    /* (td => { ... }) está sendo execuTAdo para
-     cada célula <td> individulamente.*/
-    /*td.removeAttribute ta removendo o atrubuto data-snake da célula. porque ela andou então não ta mais ocupando*/
   });
-
-
-
-
 
   cobra.forEach(parte => {
     const celula = document.querySelector(`td[data-x="${parte.x}"][data-y="${parte.y}"]`);
@@ -88,24 +78,16 @@ function gerarComida() {
   );  /*.filter(...) vai remover as células que já têm a cobrinha (data-snake) ou já têm comida (data-food), agr só tem as livres */
   if (livres.length === 0) return; //"se não houver nenhuma célula livre, return"
   const aleatoria = livres[Math.floor(Math.random() * livres.length)];
-  /* Lógica da comida: Math.random() vai gerar um número DECIMAL entre 0 e 1;
-  Math.random() * livres.length vai pegar esse número decimal e multiplicar pelo número de células livres, ou seja, entre 0 e o último índice do array;
-  Math.floor(...) vai retornar o maior número inteiro menor ou igual ao número fornecido como argumento, ou seja, ele sempre arredonda pra baixo,
-  meu número decimal vira inteiro e, portanto,
-  o livres[] pega uma célula aleatória vazia.*/
   aleatoria.setAttribute("data-food", "true");// ta marcando essa celula criada pelo const aleatoria como sendo comida :)
-
 }
 
 function moverCobra() {
 
   const cabeca = cobra[cobra.length - 1];
   //pega a última posição do array cobra, que representa a cabeça atual (laeli).
-  //"a propriedade length tem como responsabilidade retornar a quantidade de caracteres de uma string ou o tamanho de um array."
-
+  //"a propriedade length tem como de retornar a quantidade de caracteres de uma string ou o tamanho de um array."
   const novaCabeca = { x: cabeca.x + direcao.x, y: cabeca.y + direcao.y };
   //calcula onde será a nova cabeça, somando a direção (direcao.x e direcao.y) à posição atual. Isso move a cobrinha para a frente.
-
   // agora vai verificar a colisão com bordas ou com o próprio corpo hehe
   if (
     novaCabeca.x < 0 || novaCabeca.x >= table_size ||
@@ -117,6 +99,7 @@ function moverCobra() {
   ) {
     // alert("Perdeu, otário!!");
     clearInterval(loop); //tenho que chamar o clearInterval porque usei o setInterval pra criar o loop da cobre
+    podeMudarDirecao = true;
     return;
   }
 
@@ -137,21 +120,51 @@ function moverCobra() {
   }
 
   desenharCobra();
+  podeMudarDirecao = true; //pode trocar a direção agora
 }
 
 //--------lógica para setas do teclado
 document.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowUp" && direcao.y !== 1) direcao = { x: 0, y: -1 };
-  else if (e.key === "ArrowDown" && direcao.y !== -1) direcao = { x: 0, y: 1 };
-  else if (e.key === "ArrowLeft" && direcao.x !== 1) direcao = { x: -1, y: 0 };
-  else if (e.key === "ArrowRight" && direcao.x !== -1) direcao = { x: 1, y: 0 };
+  if (!podeMudarDirecao) return;
+  // if podeMudarDirecao for false, return (pare aqui)
+  if (e.key === "ArrowUp" && direcao.y !== 1) {direcao = { x: 0, y: -1 }
+podeMudarDirecao= false;}
+  
+  else if (e.key === "ArrowDown" && direcao.y !== -1) {direcao = { x: 0, y: 1 };
+podeMudarDirecao= false;}
+  else if (e.key === "ArrowLeft" && direcao.x !== 1) {direcao = { x: -1, y: 0 }
+podeMudarDirecao= false;}
+  else if (e.key === "ArrowRight" && direcao.x !== -1) {direcao = { x: 1, y: 0 }
+podeMudarDirecao= false;}
 });
 
-desenharCobra();
-gerarComida();
-const loop = setInterval(moverCobra, 150);
+document.addEventListener("keydown", (e) => {
+    if (!podeMudarDirecao) return;
+  if (e.key === "w" && direcao.y !== 1) {direcao = { x: 0, y: -1 };
+podeMudarDirecao= false;}
+  else if (e.key === "s" && direcao.y !== -1) {direcao = { x: 0, y: 1 };
+podeMudarDirecao= false;}
+  else if (e.key === "a" && direcao.x !== 1) {direcao = { x: -1, y: 0 };
+podeMudarDirecao= false;}
+  else if (e.key === "d" && direcao.x !== -1) {direcao = { x: 1, y: 0 };
+podeMudarDirecao= false;}
+});
 
+let loop;
+
+function Start () {
+  desenharCobra();
+  gerarComida();
+  loop = setInterval(moverCobra, 140);
+}
 //velocidade, quanto menor, mais rápido / setInterval é comando padrão para loop
+
+
+document.getElementById("start-button").addEventListener("click", function() {
+  Start();
+  this.disabled = true;
+});
+
 
 document.getElementById("reset-button").addEventListener("click", function () {
   location.reload();

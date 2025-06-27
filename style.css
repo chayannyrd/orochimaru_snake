@@ -32,6 +32,8 @@ body{
 }
 
 table {
+
+  
   border-collapse: collapse;
   /*quando duas células estão encostadas, a borda entre elas vira uma só*/
   background-color: #fdfdfdab;
@@ -60,6 +62,17 @@ td[data-food="true"] {
   background-repeat: no-repeat;
 }
 
+#start-button {
+  padding: 0.4rem 0.5rem;
+  border: 2px solid #fbff00;
+  background-color: #727272c8;
+  color: rgb(255, 255, 255);
+  font-weight: Roboto, sans-serif;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(223, 244, 0, 0.7);
+  cursor: pointer;
+  transition: scale(1.05);
+}
 
 #reset-button {
   padding: 0.4rem 0.5rem;
